@@ -70,13 +70,19 @@ def rm(args):
 def rmdir(args):
     if not check_args(args, (os.path.isdir, 'not a directory')):
         return
-    os.rmdir(args[0])
+    try:
+        os.rmdir(args[0])
+    except:
+        error('directory is not empty')
 
 
 def mkdir(args):
     if not check_args(args, ()):
         return
-    os.mkdir(args[0])
+    try:
+        os.mkdir(args[0])
+    except:
+        error('directory already exists')
 
 
 def run(args):
@@ -117,4 +123,7 @@ if __name__ == '__main__':
             continue
         if cmd[0] == 'exit':
             break
-        commands[cmd[0]](cmd[1:])
+        try:
+            commands[cmd[0]](cmd[1:])
+        except:
+            error('no such command')
